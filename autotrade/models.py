@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class Dealer(models.Model):
@@ -10,6 +11,12 @@ class Dealer(models.Model):
     name = models.CharField(max_length=300)
     city = models.CharField(max_length=300)
     address = models.CharField(max_length=500)
+
+    def clean(self):
+        if not str(self.ogrn).isdigit():
+            raise ValidationError(
+                'ogrn must be integer'
+            )
 
 
 class Auto(models.Model):
@@ -28,3 +35,21 @@ class Auto(models.Model):
     mileage = models.IntegerField()
     horsepower = models.IntegerField()
     dealer = models.ForeignKey(Dealer, on_delete=models.CASCADE)
+
+    def clean(self):
+        if not str(self.top_speed).isdigit():
+            raise ValidationError(
+                'top_speed must be integer'
+            )
+        elif not str(self.weight).isdigit():
+            raise ValidationError(
+                'weight must be integer'
+            )
+        elif not str(self.mileage).isdigit():
+            raise ValidationError(
+                'mileage must be integer'
+            )
+        elif not str(self.horsepower).isdigit():
+            raise ValidationError(
+                'horsepower must be integer'
+            )
