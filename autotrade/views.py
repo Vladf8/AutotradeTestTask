@@ -33,18 +33,18 @@ def create_dealer(request):
 
 @csrf_exempt
 def delete_dealer(request):
-    if request.method == 'DELETE':
-        if request.GET.get('id') is not None:
-            dealer = Dealer.objects.filter(id=request.GET['id'][0])
-            if len(dealer) == 1:
-                dealer[0].delete()
-            elif len(dealer) == 0:
-                return JsonResponse(status=400, data={'error': 'id: {} does not exist'.format(request.GET.get('id'))})
-        else:
-            return JsonResponse(status=400, data={'error': 'To delete dealer, need to add param id'})
-        return JsonResponse(status=200, data={'success': True})
-    else:
+    if request.method != 'DELETE':
         return JsonResponse(status=405, data={'error': 'request must be DELETE'})
+    if request.GET.get('id') is not None:
+        dealer = Dealer.objects.filter(id=request.GET['id'][0])
+        if len(dealer) == 1:
+            dealer[0].delete()
+        elif len(dealer) == 0:
+            return JsonResponse(status=400, data={'error': 'id: {} does not exist'.format(request.GET.get('id'))})
+    else:
+        return JsonResponse(status=400, data={'error': 'To delete dealer, need to add param id'})
+    return JsonResponse(status=200, data={'success': True})
+
 
 
 @csrf_exempt
