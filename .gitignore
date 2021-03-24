@@ -1,0 +1,6 @@
+venv/
+autotrade/__pycache__/
+autotrade/migrations/__pycache__/
+AutotradeTestTask/__pycache__/
+.idea/
+db.sqlite3
